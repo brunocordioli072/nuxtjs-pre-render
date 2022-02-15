@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "types": ["@nuxt/types"],
+      "paths": {
+        "~/*": ["./*"],
+        "@/*": ["./*"],
+      }
+    },
+    "exclude": ["node_modules", ".nuxt", "dist"]
+  }
+  
