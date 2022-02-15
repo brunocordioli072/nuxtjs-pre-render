@@ -1,69 +1,83 @@
-# nuxtjs-pre-render
+# Building a Nuxt.js single-page application with SEO metatags
 
-## Build Setup
+There are many reasons to use SPA on a Nuxt.js app! My favorite one is budget, haha, is much cheaper to serve a static website with no server. But with SPA comes a lot of little problems like how to handle dynamic content, that in a first look, needs to be handled on the server. This little project is an example on how to handle one of the little problems.
 
-```bash
-# install dependencies
-$ yarn install
+For the full description of this project, go to [https://google.com](https://google.com).
 
-# serve with hot reload at localhost:3000
-$ yarn dev
+### The approach
 
-# build for production and launch server
-$ yarn build
-$ yarn start
+The basic idea:
 
-# generate static project
-$ yarn generate
+1. Create a custom App `yarn create nuxt-app`
+
+2. Setup the dynamic routes
+
+```js
+// pages/_catId/preview.vue
+<template>
+  <div>
+    <img :src="`/images/cat-${catId}.jpg`" alt="" /> <br />
+    <span>Hello!! My name is {{ cat.name }}!!</span>
+  </div>
+</template>
+
+<script>
+import { cats } from '~/cats';
+
+export default {
+  head() {
+    return {
+      meta: [
+        {
+          hid: 'title',
+          property: 'title',
+          content: `Hello!! My name is ${this.cat.name}!!`,
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: `Hello!! My name is ${this.cat.name}!!`,
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          property: 'og:image',
+          content: `${process.env.BASE_URL}/images/cat-${this.cat.id}.jpg`,
+        },
+      ],
+    };
+  },
+  data() {
+    return {
+      catId: this.$route.params.catId,
+    };
+  },
+  computed: {
+    cat() {
+      const cat = cats.find((el) => el.id === this.catId);
+      return cat;
+    },
+  },
+};
+</script>
 ```
 
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
+3. Make all routes that exist on /*/preview be pre-rendered by Nuxt.js on build time.
 
-## Special Directories
+```js
+// nuxt.config.js
 
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
+export default {
+  ...
+  ssr: process.env.NODE_ENV === 'production',
 
-### `assets`
+  target: 'static',
 
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
+  generate: {
+    routes: ["0/preview", "1/preview", "2/preview", "3/preview", "4/preview"],
+  },
+  ...
+}
+```
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
-
-### `components`
-
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
-
-### `layouts`
-
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
-
-
-### `pages`
-
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
-
-### `plugins`
-
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
-
-### `static`
-
-This directory contains your static files. Each file inside this directory is mapped to `/`.
-
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
-
-### `store`
-
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+Feel free to follow me on [LinkedIn](https://www.linkedin.com/in/brunocordioli072/) 🤙
