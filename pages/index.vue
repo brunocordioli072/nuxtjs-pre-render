@@ -1,9 +1,11 @@
 <template>
-  <Tutorial/>
+  <div></div>
 </template>
 
 <script>
 export default {
-  name: 'IndexPage'
-}
+  middleware({ redirect }) {
+    return redirect('/0/preview');
+  },
+};
 </script>

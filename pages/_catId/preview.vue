@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     cat() {
-      const cat = cats.find((el) => el.id == this.catId);
+      const cat = cats.find((el) => el.id === this.catId);
       return cat;
     },
   },
