@@ -13,11 +13,6 @@ export default {
     return {
       meta: [
         {
-          hid: 'title',
-          property: 'title',
-          content: `Hello!! My name is ${this.cat.name}!!`,
-        },
-        {
           hid: 'og:title',
           property: 'og:title',
           content: `Hello!! My name is ${this.cat.name}!!`,
