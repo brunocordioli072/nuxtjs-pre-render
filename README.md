@@ -2,7 +2,7 @@
 
 There are many reasons to use SPA on a Nuxt.js app! My favorite one is budget, haha, is much cheaper to serve a static website with no server. But with SPA comes a lot of little problems like how to handle dynamic content, that in a first look, needs to be handled on the server. This little project is an example on how to handle one of the little problems.
 
-For the full description of this project, go to [https://nuxtjs-pre-render.netlify.app](https://nuxtjs-pre-render.netlify.app).
+For the full description of this project, go to [Medium post](https://medium.com/@brunocordioli072/building-a-nuxt-js-static-website-with-seo-meta-tags-8eade6e5806e).
 
 ### The approach
 
